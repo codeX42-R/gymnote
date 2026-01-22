@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>エラーが発生しました | gymnote</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <style>
+        .err-wrap {
+            display: grid;
+            gap: 14px;
+            padding: 18px;
+        }
+
+        .err-code {
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: .03em;
+        }
+
+        .err-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .err-sub {
+            color: rgba(255, 255, 255, .78);
+            line-height: 1.7;
+        }
+
+        .err-box {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .10);
+        }
+
+        .err-meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .65);
+            display: grid;
+            gap: 6px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 12px;
+        }
+
+        .err-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+
+        details {
+            background: rgba(0, 0, 0, .18);
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin: 10px 0 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, .80);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">G</div>
+                <div>
+                    gymnote
+                    <small>エラーページ</small>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="btn" href="/">ホーム</a>
+                <a class="btn" href="/workouts/new">本日のトレーニング</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="err-wrap">
+                    <div class="chip">⚠️ Internal Server Error</div>
+                    <div class="err-code">500</div>
+                    <h1 class="err-title">予期しないエラーが発生しました</h1>
+                    <p class="err-sub">
+                        申し訳ありません。処理中に問題が発生しました。<br>
+                        少し時間をおいて再度試すか、ホームに戻って操作をやり直してください。
+                    </p>
+
+                    <div class="err-box">
+                        <div class="err-meta">
+                            <div th:if="${path}">Path: <span th:text="${path}">/unknown</span></div>
+                            <div th:if="${status}">Status: <span th:text="${status}">500</span></div>
+                            <div th:if="${error}">Error: <span th:text="${error}">-</span></div>
+                            <div th:if="${timestamp}">Time: <span th:text="${timestamp}">-</span></div>
+                        </div>
+
+                        <div class="err-actions">
+                            <a class="btn btn-primary" href="/">ホームへ</a>
+                            <a class="btn" href="/workouts/new">本日のトレーニングへ</a>
+                            <button class="btn btn-ghost" type="button" onclick="location.reload()">再読み込み</button>
+                        </div>
+
+                        <!-- 本番では詳細は見せないのが基本。必要なら残す -->
+                        <details>
+                            <summary>詳細（開発用）</summary>
+                            <pre th:text="${message}">message</pre>
+                            <pre th:text="${exception}">exception</pre>
+                        </details>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

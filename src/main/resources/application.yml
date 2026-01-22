@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/gymnote
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+
+  web:
+    resources:
+      add-mappings: true
+
+
+# -----------------------------
+# エラーページ設定
+# -----------------------------
+server:
+  error:
+    whitelabel:
+      enabled: false
+    include-message: never
+    include-exception: false
+    include-stacktrace: never
+
+
+# -----------------------------
+# ログ設定（YAML警告回避版）
+# -----------------------------
+logging:
+  level:
+    "[org.hibernate.SQL]": debug
+    "[org.hibernate.type.descriptor.sql.BasicBinder]": trace
+

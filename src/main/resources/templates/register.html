@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ユーザー登録 | gymnote</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">G</div>
+                <div>
+                    gymnote
+                    <small>Create your account</small>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="btn" href="/login">ログイン</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h1">ユーザー登録</h1>
+                <p class="sub">30秒で始められます。</p>
+            </div>
+
+            <div class="card-body">
+                <div class="alert error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+                <form class="form" th:action="@{/register}" th:object="${registerForm}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="field">
+                        <label>Email</label>
+                        <input type="email" th:field="*{email}" autocomplete="username">
+                        <div class="alert error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>パスワード（8文字以上）</label>
+                        <input id="registerPassword" type="password" th:field="*{password}" autocomplete="new-password">
+                        <div class="help-row">
+                            <span class="small-link">英数ミックス推奨</span>
+                            <button class="btn" type="button" data-toggle-password="registerPassword">表示</button>
+                        </div>
+                        <div class="alert error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                    </div>
+
+                    <div class="field">
+                        <label>表示名</label>
+                        <input type="text" th:field="*{displayName}" autocomplete="nickname">
+                        <div class="alert error" th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">登録する</button>
+
+                    <div class="help-row">
+                        <a class="small-link" href="/login">ログインはこちら</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+
+</html>

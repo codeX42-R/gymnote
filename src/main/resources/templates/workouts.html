@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>実績 | gymnote</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">G</div>
+                <div>
+                    gymnote
+                    <small th:text="|こんにちは、${displayName}さん|">こんにちは、ユーザーさん</small>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="btn" href="/">ホーム</a>
+                <a class="btn btn-primary" href="/workouts/new">本日のトレーニング</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h1">これまでの実績</h1>
+                <p class="sub">日付ごとの記録一覧（新しい順）</p>
+            </div>
+
+            <!-- workouts.html の実績表示エリアを差し替え -->
+
+            <div th:if="${#lists.isEmpty(days)}">
+                <div class="alert">まだ記録がありません</div>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(days)}" style="display:grid; gap:18px;">
+
+                <div class="tile" th:each="d : ${days}" style="padding:14px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                        <div>
+                            <div style="font-weight:800; font-size:18px;" th:text="${d.date}">2026-01-21</div>
+                            <div th:if="${d.note}" style="opacity:.9; margin-top:4px;" th:text="${d.note}">メモ</div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; gap:12px; margin-top:12px;">
+                        <!-- 日付内：種目ごとにまとめる -->
+                        <div class="exercise-card" th:each="ex : ${d.exercises}">
+                            <div class="exercise-head">
+                                <div class="exercise-name" th:text="${ex.name}">ダンベルプレス</div>
+                                <div class="mini-pill">合計<span th:text="${ex.totalSets}">3</span>set</div>
+                            </div>
+
+                            <!-- セット一覧 -->
+                            <div class="exercise-rows" style="margin-top:10px;">
+                                <div class="row" th:each="s : ${ex.sets}">
+                                    <div class="row-metric">
+                                        <span th:text="|${s.weight}kg：${s.reps}回|">60kg：10回</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script th:src="@{/js/app.js}"></script>
+</body>
+
+</html>

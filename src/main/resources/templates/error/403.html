@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アクセスできません | gymnote</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <style>
+        .err-wrap {
+            display: grid;
+            gap: 14px;
+            padding: 18px;
+        }
+
+        .err-code {
+            font-size: 44px;
+            font-weight: 800;
+            letter-spacing: .03em;
+        }
+
+        .err-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .err-sub {
+            color: rgba(255, 255, 255, .78);
+            line-height: 1.7;
+        }
+
+        .err-box {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .10);
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 12px;
+        }
+
+        .err-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">G</div>
+                <div>
+                    gymnote
+                    <small>エラーページ</small>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="btn" href="/">ホーム</a>
+                <a class="btn" href="/workouts/new">本日のトレーニング</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="err-wrap">
+                    <div class="chip">🔒 Forbidden</div>
+                    <div class="err-code">403</div>
+                    <h1 class="err-title">アクセスできません</h1>
+                    <p class="err-sub">
+                        このページは権限がないため表示できません。<br>
+                        別のアカウントでログインしている可能性もあります。
+                    </p>
+
+                    <div class="err-box">
+                        <div class="err-actions">
+                            <a class="btn btn-primary" href="/">ホームへ</a>
+                            <a class="btn" href="/workouts/new">本日のトレーニングへ</a>
+                            <a class="btn btn-ghost" href="/logout">ログアウト</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

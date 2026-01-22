@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>新規種目の追加 | gymnote</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="nav">
+            <div class="brand">
+                <div class="logo">G</div>
+                <div>gymnote<small th:text="|こんにちは、${displayName}さん|">こんにちは</small></div>
+            </div>
+            <div class="actions">
+                <a class="btn" href="/workouts/new">本日のトレーニングへ戻る</a>
+                <a class="btn" href="/exercises">管理へ</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h1 class="h1">新規種目の追加</h1>
+                <p class="sub">種目名と対象部位を登録します</p>
+            </div>
+
+            <div class="card-body">
+                <div class="alert error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+                <form class="form" th:action="@{/exercises}" th:object="${exerciseForm}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <div class="field">
+                        <label>種目名</label>
+                        <input type="text" th:field="*{name}" placeholder="例）ケーブルクロス" required>
+                    </div>
+
+                    <div class="field">
+                        <label>対象部位</label>
+                        <select class="select" th:field="*{bodyPart}" required>
+                            <option value="">-- 選択 --</option>
+                            <option th:each="bp : ${bodyParts}" th:value="${bp.name()}" th:text="${bp.label}">胸</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" type="submit">追加する</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>既存種目の修正/削除</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="header">
+            <div class="title">
+                <h1>既存種目の修正/削除</h1>
+                <p class="muted" th:text="|こんにちは、${displayName}さん|"></p>
+            </div>
+            <div class="header-actions">
+                <a class="btn btn-ghost" th:href="@{/}">ホームへ</a>
+                <a class="btn btn-primary" th:href="@{/exercises/new}">＋ 新規種目の追加</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-hd">
+                <h2>カテゴリを選択</h2>
+                <p class="muted">クリックすると、そのカテゴリに属する種目が下に表示されます。</p>
+            </div>
+
+            <!-- カテゴリ一覧（アコーディオン） -->
+            <div class="accordion" id="exerciseAccordion">
+
+                <div th:each="bp : ${bodyParts}" class="accordion-item" th:attr="data-bp=${bp.name()}">
+
+                    <button type="button" class="accordion-head" th:attr="data-acc-btn=${bp.name()}">
+                        <span class="acc-title" th:text="${bp.label}">胸</span>
+                        <span class="acc-meta">
+                            <span class="acc-count" th:attr="data-acc-count=${bp.name()}">0</span> 件
+                        </span>
+                    </button>
+
+                    <div class="accordion-body is-hidden" th:attr="data-acc-body=${bp.name()}">
+
+                        <!-- このカテゴリに該当する種目だけ表示 -->
+                        <div th:each="ex : ${exercises}" th:if="${ex.bodyPart.name() == bp.name()}" class="exercise-row"
+                            th:attr="data-ex-row=${bp.name()}">
+
+                            <div class="ex-name">
+                                <div class="ex-title" th:text="${ex.name}">ベンチプレス</div>
+                                <div class="ex-sub muted" th:text="${ex.user == null ? 'デフォルト種目' : 'ユーザー追加'}">デフォルト種目
+                                </div>
+                            </div>
+
+                            <!-- 更新フォーム -->
+                            <form class="ex-form" th:if="${ex.user != null}" th:action="@{|/exercises/${ex.id}/update|}" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <input class="input" type="text" name="name" th:value="${ex.name}" maxlength="60"
+                                    required>
+
+                                <select class="select" name="bodyPart" required>
+                                    <option th:each="p : ${bodyParts}" th:value="${p.name()}"
+                                        th:selected="${p.name() == ex.bodyPart.name()}" th:text="${p.label}">
+                                    </option>
+                                </select>
+
+                                <button class="btn btn-primary btn-sm" type="submit">保存</button>
+                            </form>
+
+                            <!-- 削除フォーム -->
+                            <form th:if="${ex.user != null}" th:action="@{|/exercises/${ex.id}/delete|}" method="post"
+                                onsubmit="return confirm('この種目を削除しますか？');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <button class="btn btn-danger btn-sm" type="submit">削除</button>
+                            </form>
+
+                        </div>
+
+                        <!-- 空のときの表示 -->
+                        <div class="muted empty-hint" th:if="${#lists.isEmpty(exercises)}">
+                            種目がありません
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/app.js}"></script>
+</body>
+
+</html>
