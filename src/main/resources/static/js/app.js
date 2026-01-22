@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const normalizeDateValue = (v) => {
         if (!v) return "";
-        // 2026/01/22 -> 2026-01-22 に保険
         return String(v).replaceAll("/", "-");
     };
 
@@ -302,10 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
             exSel.dataset.bound = "true";
         }
 
-        // セット追加（★二重バインド防止）
         block.querySelectorAll("[data-add-set]").forEach((btn) => {
-            if (btn.dataset.bound === "true") return;   // ★追加
-            btn.dataset.bound = "true";                // ★追加
+            if (btn.dataset.bound === "true") return;   
+            btn.dataset.bound = "true";               
 
             btn.addEventListener("click", () => {
                 addSet(block);
@@ -314,10 +312,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // ブロック削除（★二重バインド防止）
         block.querySelectorAll("[data-remove-exercise]").forEach((btn) => {
-            if (btn.dataset.bound === "true") return;   // ★追加
-            btn.dataset.bound = "true";                // ★追加
+            if (btn.dataset.bound === "true") return;   
+            btn.dataset.bound = "true";             
 
             btn.addEventListener("click", () => {
                 block.remove();
@@ -373,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function resetWorkoutNewUI() {
         if (!form) return;
 
-        // 日付は今日に
         const wd = form.querySelector("#workoutDate");
         if (wd) {
             const today = new Date();
@@ -383,11 +379,9 @@ document.addEventListener("DOMContentLoaded", () => {
             wd.value = `${yyyy}-${mm}-${dd}`;
         }
 
-        // メモ消す
         const note = form.querySelector("textarea[name$='.note'], textarea");
         if (note) note.value = "";
 
-        // ブロック作り直し
         if (exContainer) {
             exContainer.innerHTML = "";
             createExerciseBlock(null, "");
@@ -421,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // =========================
-    // workout_new：初期化 & イベント（ここが重要）
+    // workout_new：初期化 & イベント
     // =========================
     if (form && location.pathname === "/workouts/new") {
 
@@ -447,8 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (params.get("saved") === "1") {
             clearDraft();
             resetWorkoutNewUI();
-
-            // ?saved=1 をURLから消す（任意）
             params.delete("saved");
             const newQs = params.toString();
             const newUrl = newQs ? `${location.pathname}?${newQs}` : location.pathname;
@@ -517,9 +509,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // =========================
-    // ふわっと表示
-    // =========================
     document.querySelectorAll(".card").forEach((card) => {
         card.animate(
             [{ transform: "translateY(8px)", opacity: 0 }, { transform: "translateY(0)", opacity: 1 }],
